@@ -314,7 +314,7 @@ function prevMonth_(m){var f=fyMonths_(fyStartOf_(m));var i=f.indexOf(m);return 
 function shortM_(m){return m.split(' ')[0].slice(0,3)+' '+String(yearOf_(m)).slice(2)}
 
 /* ---------- row model ---------- */
-function rowKey_(r){return [r.division,r.region,r.cluster,r.location,r.account,r.primaryGroup,r.attributes].map(function(s){return String(s).toLowerCase().trim()}).join('|')}
+function rowKey_(r){return [r.location,r.account].map(function(s){return String(s).toLowerCase().trim()}).join('|')}
 function rowMap_(r){return r._m||{category:'Other expenses',multiplier:1,component:''}}
 function enrich_(){
   rawRows.forEach(function(r){

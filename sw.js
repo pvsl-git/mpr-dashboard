@@ -1,7 +1,7 @@
 // MPR mobile PWA service worker.
 // Shell files: cache-first (works offline after first visit).
 // data.xlsx: network-first (always fresh when online, cached copy offline).
-var CACHE = 'mpr-mobile-v4';
+var CACHE = 'mpr-mobile-v5';
 var SHELL = ['./mobile.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function (e) {

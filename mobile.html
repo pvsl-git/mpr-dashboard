@@ -514,34 +514,36 @@ function renderDivTable(){
   var divs=DIV_ORDER.filter(function(d){return divSet[d];});
   Object.keys(divSet).forEach(function(d){if(DIV_ORDER.indexOf(d)===-1)divs.push(d);});
   if(!divs.length){document.getElementById('divTbl').innerHTML='';return;}
-  var th='<th style="text-align:left;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap">Division</th>';
-  cols.forEach(function(m){th+='<th style="text-align:right;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap">'+shortM_(m)+'</th>';});
-  th+='<th style="text-align:right;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border)">Total</th>';
+  var STK='position:sticky;left:0;background:var(--bg);z-index:1;';
+  var STK2='position:sticky;left:0;background:#f3f3f6;z-index:1;';
+  var th='<th style="'+STK+'text-align:left;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap;min-width:72px">Div</th>';
+  cols.forEach(function(m){th+='<th style="text-align:right;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap;min-width:52px">'+shortM_(m)+'</th>';});
+  th+='<th style="text-align:right;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);min-width:52px">Total</th>';
   var tbody='';
   divs.forEach(function(div){
     tbody+='<tr>';
-    tbody+='<td style="padding:5px 4px;font-weight:600;color:var(--text);white-space:nowrap">'+esc_(div)+'</td>';
+    tbody+='<td style="'+STK+'padding:5px 6px;font-weight:700;color:var(--text);white-space:nowrap;border-right:1px solid var(--border)">'+esc_(div)+'</td>';
     var tot=0;
     cols.forEach(function(m){
       var v=divPbt[m][div]||0,c=cr_(v);tot+=v;
-      tbody+='<td style="text-align:right;padding:5px 4px;font-variant-numeric:tabular-nums;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
+      tbody+='<td style="text-align:right;padding:5px 6px;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
     });
     var tc=cr_(tot);
-    tbody+='<td style="text-align:right;padding:5px 4px;font-weight:700;font-variant-numeric:tabular-nums;color:'+(tc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(tc)+'</td>';
+    tbody+='<td style="text-align:right;padding:5px 6px;font-weight:700;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(tc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(tc)+'</td>';
     tbody+='</tr>';
   });
-  var totRow='<tr style="border-top:2px solid var(--border)">';
-  totRow+='<td style="padding:5px 4px;font-weight:800;color:var(--text)">PBT after IndAS</td>';
+  var totRow='<tr style="border-top:2px solid var(--border);background:#f3f3f6">';
+  totRow+='<td style="'+STK2+'padding:5px 6px;font-weight:800;color:var(--text);white-space:nowrap;border-right:1px solid var(--border)">PBT</td>';
   var grand=0;
   cols.forEach(function(m){
     var t=0;divs.forEach(function(d){t+=divPbt[m][d]||0;});grand+=t;
     var c=cr_(t);
-    totRow+='<td style="text-align:right;padding:5px 4px;font-weight:800;font-variant-numeric:tabular-nums;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
+    totRow+='<td style="text-align:right;padding:5px 6px;font-weight:800;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
   });
   var gc=cr_(grand);
-  totRow+='<td style="text-align:right;padding:5px 4px;font-weight:800;font-variant-numeric:tabular-nums;color:'+(gc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(gc)+'</td>';
+  totRow+='<td style="text-align:right;padding:5px 6px;font-weight:800;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(gc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(gc)+'</td>';
   totRow+='</tr>';
-  document.getElementById('divTbl').innerHTML='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:4px"><table style="width:100%;border-collapse:collapse;font-size:.7rem"><thead><tr>'+th+'</tr></thead><tbody>'+tbody+totRow+'</tbody></table></div>';
+  document.getElementById('divTbl').innerHTML='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:4px;border:1px solid var(--border);border-radius:10px"><table style="border-collapse:collapse;font-size:.7rem;width:max-content;min-width:100%"><thead><tr>'+th+'</tr></thead><tbody>'+tbody+totRow+'</tbody></table></div>';
 }
 function renderDivTableRegion_(){
   // ── Region-wise: rows=divisions, cols=regions ──────────────────────────────
@@ -552,34 +554,36 @@ function renderDivTableRegion_(){
   var divs=DIV_ORDER.filter(function(d){return divReg[d];});
   Object.keys(divReg).forEach(function(d){if(DIV_ORDER.indexOf(d)===-1)divs.push(d);});
   if(!divs.length||!regs.length){document.getElementById('divTbl').innerHTML='<div class="empty">No data</div>';return;}
-  var th='<th style="text-align:left;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border)">Division</th>';
-  regs.forEach(function(rg){th+='<th style="text-align:right;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap">'+esc_(rg)+'</th>';});
-  th+='<th style="text-align:right;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border)">Total</th>';
+  var STK='position:sticky;left:0;background:var(--bg);z-index:1;';
+  var STK2='position:sticky;left:0;background:#f3f3f6;z-index:1;';
+  var th='<th style="'+STK+'text-align:left;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap;min-width:72px">Div</th>';
+  regs.forEach(function(rg){th+='<th style="text-align:right;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap;min-width:70px">'+esc_(rg)+'</th>';});
+  th+='<th style="text-align:right;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);min-width:52px">Total</th>';
   var tbody='';
   divs.forEach(function(div){
     tbody+='<tr>';
-    tbody+='<td style="padding:5px 4px;font-weight:600;color:var(--text);white-space:nowrap">'+esc_(div)+'</td>';
+    tbody+='<td style="'+STK+'padding:5px 6px;font-weight:700;color:var(--text);white-space:nowrap;border-right:1px solid var(--border)">'+esc_(div)+'</td>';
     var tot=0;
     regs.forEach(function(rg){
       var v=divReg[div]&&divReg[div][rg]||0,c=cr_(v);tot+=v;
-      tbody+='<td style="text-align:right;padding:5px 4px;font-variant-numeric:tabular-nums;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
+      tbody+='<td style="text-align:right;padding:5px 6px;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
     });
     var tc=cr_(tot);
-    tbody+='<td style="text-align:right;padding:5px 4px;font-weight:700;font-variant-numeric:tabular-nums;color:'+(tc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(tc)+'</td>';
+    tbody+='<td style="text-align:right;padding:5px 6px;font-weight:700;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(tc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(tc)+'</td>';
     tbody+='</tr>';
   });
-  var totRow='<tr style="border-top:2px solid var(--border)">';
-  totRow+='<td style="padding:5px 4px;font-weight:800;color:var(--text)">PBT after IndAS</td>';
+  var totRow='<tr style="border-top:2px solid var(--border);background:#f3f3f6">';
+  totRow+='<td style="'+STK2+'padding:5px 6px;font-weight:800;color:var(--text);white-space:nowrap;border-right:1px solid var(--border)">PBT</td>';
   var grand=0;
   regs.forEach(function(rg){
     var t=0;divs.forEach(function(d){t+=divReg[d]&&divReg[d][rg]||0;});grand+=t;
     var c=cr_(t);
-    totRow+='<td style="text-align:right;padding:5px 4px;font-weight:800;font-variant-numeric:tabular-nums;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
+    totRow+='<td style="text-align:right;padding:5px 6px;font-weight:800;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(c<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(c)+'</td>';
   });
   var gc=cr_(grand);
-  totRow+='<td style="text-align:right;padding:5px 4px;font-weight:800;font-variant-numeric:tabular-nums;color:'+(gc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(gc)+'</td>';
+  totRow+='<td style="text-align:right;padding:5px 6px;font-weight:800;font-variant-numeric:tabular-nums;font-size:.68rem;color:'+(gc<0?'var(--neg)':'var(--green)')+'">'+fmtDiv_(gc)+'</td>';
   totRow+='</tr>';
-  document.getElementById('divTbl').innerHTML='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:4px"><table style="width:100%;border-collapse:collapse;font-size:.7rem"><thead><tr>'+th+'</tr></thead><tbody>'+tbody+totRow+'</tbody></table></div>';
+  document.getElementById('divTbl').innerHTML='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:4px;border:1px solid var(--border);border-radius:10px"><table style="border-collapse:collapse;font-size:.7rem;width:max-content;min-width:100%"><thead><tr>'+th+'</tr></thead><tbody>'+tbody+totRow+'</tbody></table></div>';
 }
 function fmtDiv_(c){return c<0?'('+Math.abs(c).toFixed(2)+')':c.toFixed(2);}
 
@@ -947,24 +951,26 @@ function renderVolDivTable_(tgt){
   var divs=DIV_ORDER.filter(function(d){return divReg[d];});
   Object.keys(divReg).forEach(function(d){if(DIV_ORDER.indexOf(d)===-1)divs.push(d);});
   if(!divs.length){document.getElementById('volList').innerHTML='<div class="empty">No volume data</div>';return;}
-  var th='<th style="text-align:left;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border)">Division</th>';
-  regs.forEach(function(rg){th+='<th style="text-align:right;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap">'+esc_(rg)+'</th>';});
-  th+='<th style="text-align:right;padding:5px 4px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border)">Total</th>';
+  var STK='position:sticky;left:0;background:var(--bg);z-index:1;';
+  var STK2='position:sticky;left:0;background:#f3f3f6;z-index:1;';
+  var th='<th style="'+STK+'text-align:left;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);min-width:72px;white-space:nowrap">Div</th>';
+  regs.forEach(function(rg){th+='<th style="text-align:right;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);white-space:nowrap;min-width:64px">'+esc_(rg)+'</th>';});
+  th+='<th style="text-align:right;padding:5px 6px;font-weight:700;color:var(--text-2);border-bottom:2px solid var(--border);min-width:52px">Total</th>';
   var tbody='',grandByReg={};
   divs.forEach(function(div){
     tbody+='<tr>';
-    tbody+='<td style="padding:5px 4px;font-weight:600;color:var(--text);white-space:nowrap">'+esc_(div)+'</td>';
+    tbody+='<td style="'+STK+'padding:5px 6px;font-weight:700;color:var(--text);white-space:nowrap;border-right:1px solid var(--border)">'+esc_(div)+'</td>';
     var tot=0;
     regs.forEach(function(rg){var u=divReg[div]&&divReg[div][rg]||0;tot+=u;grandByReg[rg]=(grandByReg[rg]||0)+u;
-      tbody+='<td style="text-align:right;padding:5px 4px;font-variant-numeric:tabular-nums;color:var(--text)">'+(u?u.toLocaleString('en-IN'):'-')+'</td>';});
-    tbody+='<td style="text-align:right;padding:5px 4px;font-weight:700;font-variant-numeric:tabular-nums">'+tot.toLocaleString('en-IN')+'</td>';
+      tbody+='<td style="text-align:right;padding:5px 6px;font-variant-numeric:tabular-nums;font-size:.68rem;color:var(--text)">'+(u?u.toLocaleString('en-IN'):'-')+'</td>';});
+    tbody+='<td style="text-align:right;padding:5px 6px;font-weight:700;font-variant-numeric:tabular-nums;font-size:.68rem">'+tot.toLocaleString('en-IN')+'</td>';
     tbody+='</tr>';
   });
-  var totRow='<tr style="border-top:2px solid var(--border)"><td style="padding:5px 4px;font-weight:800">Total Units</td>';
+  var totRow='<tr style="border-top:2px solid var(--border);background:#f3f3f6"><td style="'+STK2+'padding:5px 6px;font-weight:800;border-right:1px solid var(--border)">Total</td>';
   var grand=0;
-  regs.forEach(function(rg){var t=grandByReg[rg]||0;grand+=t;totRow+='<td style="text-align:right;padding:5px 4px;font-weight:800;font-variant-numeric:tabular-nums">'+t.toLocaleString('en-IN')+'</td>';});
-  totRow+='<td style="text-align:right;padding:5px 4px;font-weight:800;font-variant-numeric:tabular-nums">'+grand.toLocaleString('en-IN')+'</td></tr>';
-  document.getElementById('volList').innerHTML='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="width:100%;border-collapse:collapse;font-size:.7rem"><thead><tr>'+th+'</tr></thead><tbody>'+tbody+totRow+'</tbody></table></div>';
+  regs.forEach(function(rg){var t=grandByReg[rg]||0;grand+=t;totRow+='<td style="text-align:right;padding:5px 6px;font-weight:800;font-variant-numeric:tabular-nums;font-size:.68rem">'+t.toLocaleString('en-IN')+'</td>';});
+  totRow+='<td style="text-align:right;padding:5px 6px;font-weight:800;font-variant-numeric:tabular-nums;font-size:.68rem">'+grand.toLocaleString('en-IN')+'</td></tr>';
+  document.getElementById('volList').innerHTML='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:10px"><table style="border-collapse:collapse;font-size:.7rem;width:max-content;min-width:100%"><thead><tr>'+th+'</tr></thead><tbody>'+tbody+totRow+'</tbody></table></div>';
 }
 function renderVolDivRegTable_(tgt){
   // When "Region" toggle: show branch-wise list for selected period
